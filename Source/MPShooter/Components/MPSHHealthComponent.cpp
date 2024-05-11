@@ -32,7 +32,7 @@ void UMPSHHealthComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty 
 
 void UMPSHHealthComponent::SetHealth(float NewHealth)
 {
-	if (NewHealth < 0) return;
+	if (NewHealth < 0 && isDead) return;
 	
 	CurrentHealth = UKismetMathLibrary::Clamp(NewHealth, 0.f, MaxHealth);
 

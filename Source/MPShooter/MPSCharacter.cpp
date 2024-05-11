@@ -137,6 +137,20 @@ void AMPSCharacter::SpawnandAttachWeapon()
 	}
 }
 
+void AMPSCharacter::SetMeshRagdoll_Implementation()
+{
+	GetCharacterMovement()->StopMovementImmediately();
+	GetCharacterMovement()->DisableMovement();
+	GetCharacterMovement()->SetComponentTickEnabled(false);
+	GetMesh()->SetCollisionProfileName(TEXT("Ragdoll"));
+	GetMesh()->SetSimulatePhysics(true);
+}
+
+bool AMPSCharacter::SetMeshRagdoll_Validate()
+{
+	return true;
+}
+
 float AMPSCharacter::GetMovementDirection()
 {
 	if (GetVelocity().IsZero()) return 0.f;
@@ -185,15 +199,13 @@ bool AMPSCharacter::Shoot_Server_Validate(bool isStart)
 
 float AMPSCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	FString Name = FString::SanitizeFloat(DamageAmount);
-	UKismetSystemLibrary::PrintString(this, Name, true, true, FLinearColor::Red, 2.f);
 	HealthComponent->SetHealth(HealthComponent->CurrentHealth - DamageAmount);
 	return 0.f;
 }
 
 void AMPSCharacter::OnDeath()
 {
-	UKismetSystemLibrary::PrintString(this, "Meeeerrrraaavvvv", true, true, FLinearColor::Black);
-
+	SetMeshRagdoll();
+	SetLifeSpan(5);
 }
 

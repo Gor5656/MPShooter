@@ -80,6 +80,9 @@ public:
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Shoot_Server(bool isStart);
 
+	UFUNCTION(NetMulticast, Unreliable, WithValidation)
+	void SetMeshRagdoll();
+
 public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon");
